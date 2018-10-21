@@ -1,0 +1,42 @@
+---
+# Installation guide based on the insturctions from: https://cgold.readthedocs.io/en/latest/first-step/installation.html#os-x
+# A package manager similar to apm has been used
+-
+  name: Install cmake in MacOS using homebrew
+  hosts: mac
+  become: false
+  vars_files:
+    - variables.yaml
+  pre_tasks:
+    - name: Ensuring Homebrew Is Installed
+      stat:
+        path: "/usr/local/bin/brew"
+      register: "homebrew_check"
+
+    - name: Fail If Homebrew Is Not Installed and install_homebrew_if_missing Is False
+      fail:
+        msg: "Homebrew is missing...Install from http://brew.sh/ or run /usr/bin/sudo /bin/mkdir -p /usr/local/bin /usr/local/etc /usr/loc"
+      when: >
+              not homebrew_check.stat.exists and
+              not install_homebrew_if_missing
+#This is optional in case a playbook to install it has been created
+#    - include: install-homebrew.yaml
+#      when: >
+#              not homebrew_check.stat.exists and
+#              install_homebrew_if_missing
+
+  tasks:
+    - name: Test that the machine is alive and reachable
+      ping:
+
+    - name: Updating Homebrew
+      homebrew:
+        update_homebrew: true
+      when: homebrew_check.stat.exists
+
+    - name: Installing Homebrew Packages
+      homebrew:
+        name: "cmake"
+        state: "present"
+        upgrade_all: "false"
+      when: homebrew_check.stat.exists

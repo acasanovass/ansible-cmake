@@ -1,0 +1,4 @@
+# Master playbook to install Cmake in Ubuntu, Windows and MacOS
+- import_playbook: playbook-ubuntu.yaml
+- import_playbook: playbook-windows.yaml
+- import_playbook: playbook-macos.yaml

@@ -1,0 +1,21 @@
+---
+# Installation guide based on the insturctions from: https://cgold.readthedocs.io/en/latest/first-step/installation.html#ubuntu
+-
+  name: Install cmake in Ubuntu
+  hosts: ubuntu
+  become: true
+  vars_files:
+    - variables.yaml
+  tasks:
+    - name: Test that the machine is alive and reachable
+      ping:
+
+    - name: Check if the cache is a day old at least and update if necessary
+      apt:
+        update_cache: yes
+        cache_valid_time: 86400
+
+    - name: Install the required cmake_package_list
+      apt:
+        name: "{{ cmake_package_list_ubuntu }}"
+        state: latest

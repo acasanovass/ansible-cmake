@@ -1,0 +1,49 @@
+---
+# Installation guide based on the insturctions from: https://cmake.org/install/
+# Checking the latest available package at: https://cmake.org/download/
+-
+  name: Install cmake in Windows
+  hosts: windows
+  vars_files:
+    - variables.yaml
+  tasks:
+    - name: Test that the machine is alive and reachable
+      win_ping:
+
+    - name: create directory on localhost
+      file:
+        path: /tmp/ansible
+        state: directory
+      delegate_to: localhost
+
+    - name: download cmake from the official website
+      get_url:
+        url: https://cmake.org/files/v3.13/cmake-3.13.0-rc1-win64-x64.msi
+        dest: /tmp/ansible
+      delegate_to: localhost
+
+    - name: create directory
+      win_file:
+        path: C:\ansible
+        state: directory
+
+    - name: copy cmake from the ansible-controller to windows server
+      win_copy:
+        src: /tmp/ansible/cmake-3.13.0-rc1-win64-x64.msi
+        dest: C:\ansible\cmake-3.13.0-rc1-win64-x64.msi
+
+    - name: install cmake msi file
+      win_package:
+        path: 'C:\ansible\cmake-3.13.0-rc1-win64-x64.msi'
+        state: present
+
+    - name: remove cmake install folder from the windows machine
+      win_file:
+        path: C:\ansible
+        state: absent
+
+    - name: remove cmake directory from the ansible-controller
+      file:
+        path: /tmp/ansible
+        state: absent
+      delegate_to: localhost

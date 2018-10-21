@@ -1,0 +1,17 @@
+---
+jdk_package: jdk8
+java_major_version: 8.0
+java_minor_version: 162
+
+#Ubuntu variables
+cmake_version: ""
+
+cmake_package_list_ubuntu:
+  - software-properties-common
+  - cmake
+  - cmake-qt-gui
+
+#MacOS variables
+install_homebrew_if_missing: false
+
+#Windows variables
