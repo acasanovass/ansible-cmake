@@ -1,7 +1,6 @@
 # ansible-cmake
 Ansible playbooks to install cmake component un Windows, Linux and MacOS
 
-HOW TO RUN IT
 Run it in the controller by using: ansible-playbook main.yaml -i inventory.txt --extra-vars "ansible_sudo_pass=1234" -v
 *** Remember to adjust the inventory so you are sure on which server or groups you are running it!
 
